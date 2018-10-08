@@ -1,0 +1,115 @@
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+        <script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    </head>
+    <body onload="init();">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-8">
+            <h1>Board</h1>
+              <canvas id="board" width="600" height="400"></canvas>
+          </div>
+          <div class="col-md-4">
+              <h2>Settings</h2>
+              <select class="form-control"><option>Scenario</option></select>
+              <h2>Add Model</h2>
+              <form name="addUnitForm" onsubmit="return addUnit(this);">
+                <div class="form-group">
+                  <select class="form-control" name="baseSize">
+                    <option value="20">20mm base</option>
+                    <option value="35">35mm base</option>
+                    <option value="40">40mm base</option>
+                    <option value="cavalry">Cavalry</option>
+                    <option value="chariot">Chariot</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <select class="form-control" name="colour">
+                    <option value="red">Red</option>
+                    <option value="blue">Blue</option>
+                  </select>
+                </div>
+              <button class="btn btn-success" type="submit">Add</button>
+              </form>
+          </div>
+        </div>
+      </div>
+      <style>
+            body {
+                background-color: #eee;
+            }
+            canvas {
+                background-color: #fff;
+                box-shadow: 0px 0px 3px #000;
+            }
+      </style>
+      <script type="text/javascript" src="js/globals.js" ></script>
+      <script type="text/javascript" src="js/measure.js" ></script>
+      <script type="text/javascript" src="js/model.js" ></script>
+      <script>
+
+      Globals.board.width = 72; //6 foot, 72 inches
+      Globals.board.height = 48; //4 foot, 48 inches
+
+      function init() {
+        Globals.stage = new createjs.Stage("board");
+
+        var model1 = new Model({baseSize: {width: 20, height: 20}, colour: "DeepSkyBlue"});
+        var model2 = new Model({baseSize: {width: 20, height: 20}, colour: "DeepSkyBlue"});
+        var model3 = new Model({baseSize: {width: 20, height: 20}, colour: "DeepSkyBlue"});
+
+        //cavalry 75x46mm, chariots 120x92mm
+        
+        model1.drawable.y = Measure.inch(5);
+        model2.drawable.y = Measure.inch(5);
+        model3.drawable.y = Measure.inch(5);
+
+        model1.drawable.x = Measure.inch(5);
+        model2.drawable.x = model1.drawable.x + Measure.inch(5);
+        model3.drawable.x = model2.drawable.x + Measure.inch(5);
+
+        addToStage(model1);
+        addToStage(model2);
+        addToStage(model3);
+
+        Globals.stage.on("stagemousedown", clickedStage);
+
+        Globals.stage.update();
+        Globals.stage.enableMouseOver(20); 
+      }
+
+      function addUnit(form) {
+                //cavalry 75x46mm, chariots 120x92mm
+                var baseSize = {};
+                if (form.baseSize.value == "cavalry") {
+                        baseSize = {"width": 46, "height": 75};
+                } else if (form.baseSize.value == "chariot") {
+                        baseSize = {"width": 92, "height": 120};
+                } else {
+                      baseSize = {width: form.baseSize.value, height: form.baseSize.value};
+                }
+                var newModel = new Model({baseSize: baseSize, colour: form.colour.value});
+                newModel.drawable.y = Measure.inch(5);
+                newModel.drawable.x = Measure.inch(5);
+                addToStage(newModel);
+                Globals.stage.update();
+                return false;
+      }
+
+      function clickedStage(e) {
+        if (Globals.selected) {
+          Globals.selected.drawable.x = e.stageX;
+          Globals.selected.drawable.y = e.stageY;
+          Globals.stage.update();
+          Globals.selected = null;
+        }
+      }
+
+      function addToStage(model) {
+          Globals.stage.addChild(model.drawable);
+      }
+    </script>
+    </body>
+</html>

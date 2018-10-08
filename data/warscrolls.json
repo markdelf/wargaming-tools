@@ -1,0 +1,42 @@
+{
+    "warscrolls": [
+        {
+                "name": "Lord Celestant on Dracoth",
+                "description": "A Lord-Celestant on Dracoth is a single model. He wields either a Tempestos Hammer, a Thunderaxe, a Lightning Hammer or a Stormstrike Glaive. Some also carry a Sigmarite Thundershield. In any case, he rides a Dracoth which fights with its ferocious Claws and Fangs. ",
+                "minimum-models": 1,
+                "abilities": [
+                    {"name": "Tempestos Hammer", "description": ""},
+                    {"name": "Thunderaxe", "description": ""},
+                    {"name": "Lightning Hammer", "description": ""},
+                    {"name": "Stormstrike Glaive", "description": ""},
+                    {"name": "Sigmarite Thundershield", "description": ""},
+                    {"name": "Intolerable Damage", "description": ""},
+                    {"name": "Storm Breath", "description": ""}
+                ],
+                "weapons": [
+                    {
+                        "name": "Stormstrike Glaive",
+                        "range": 2,
+                        "attacks": 4,
+                        "to-hit": "3+",
+                        "to-wound": "4+",
+                        "rend": -1,
+                        "damage": "1"
+                    }
+                ],
+                "command-abilities": [
+                    {
+                        "name": "Lord of the Host",
+                        "description": ""
+                    }
+                ],
+                "stats": {
+                    "wounds": 7,
+                    "movement": 10,
+                    "bravery": 9,
+                    "save": "3+"
+                },
+                "keywords": ["order", "celestial", "human", "stormcast eternal", "hero", "lord-celestant"]
+        }
+    ]
+}
